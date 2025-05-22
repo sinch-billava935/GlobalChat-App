@@ -1,13 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:globalchat/firebase_options.dart';
+import 'package:globalchat/providers/userProvider.dart';
+import 'package:globalchat/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   //initialing the firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) {
+        return UserProvider();
+      },
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -27,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "Poppins",
       ),
 
-      home: Scaffold(body: Center(child: Text('Firebase'))),
+      home: SplashScreen(),
     );
   }
 }
